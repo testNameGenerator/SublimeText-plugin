@@ -23,8 +23,8 @@ TODO: context menu for selecting different languages / syntaxes
 
 Preview
 -----
-PHP
+PHP<br/>
 ![](https://raw.githubusercontent.com/bogdananton/Sublime-testNameGenerator/master/preview.png)
 
-JavaScript
+JavaScript<br/>
 ![](https://raw.githubusercontent.com/bogdananton/Sublime-testNameGenerator/master/preview-jasmine.png)
