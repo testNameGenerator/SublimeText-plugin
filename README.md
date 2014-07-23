@@ -7,6 +7,10 @@ Uses the file's syntax to choose between PHPUnit syntax (for PHP files) or Jasmi
 If the syntax is not PHP or JavaScript, no updates will be applied to the file.
 
 
+Install
+-----
+Install by downloading the [0.2 release zip](https://github.com/bogdananton/Sublime-testNameGenerator/releases/download/0.2/testNameGenerator.zip) and unpacking it into the \Packages folder (SublimeText Menu \ Preferences \ Browse Packages).
+
 Usage
 -----
    * Write at least a test name in plain text, using spaces between words
