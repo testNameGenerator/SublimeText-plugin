@@ -1,15 +1,14 @@
-testNameGenerator
-==============
-
 Will convert plain text task/message into a test method, using the plain text as a comment for readability.
 
 Uses the file's syntax to choose between PHPUnit syntax (for PHP files) or Jasmine's "describe" and "it" blocks (for JavaScript).
 If the syntax is not PHP or JavaScript, no updates will be applied to the file.
 
+Uses the editor's whitespace indent settings. If the cursor line is empty then use "blank" as the original phrase.<br/>
+If the original phrase is inside a dockblock then it updates the method using the same pattern as when inserting a new test method.
 
 Install
 -----
-Install by downloading the [0.2 release zip](https://github.com/bogdananton/Sublime-testNameGenerator/releases/download/0.2/testNameGenerator.zip) and unpacking it into the \Packages folder (SublimeText Menu \ Preferences \ Browse Packages).
+Install by downloading the [0.3 release zip](https://github.com/bogdananton/Sublime-testNameGenerator/releases/download/0.3/testNameGenerator.zip) and unpacking it into the \Packages folder (SublimeText Menu \ Preferences \ Browse Packages).
 
 Usage
 -----
