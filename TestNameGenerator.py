@@ -31,8 +31,10 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
     def prepareTestContent(self, testNameExpanded, testNameContracted, languageSyntax):
         returnContent = ""
 
+        tab = self.getWhitespaceTab()
+
         if (languageSyntax == "PHP"):
-            returnContent = "    /**\n     * "+testNameExpanded+"\n     */\n    public function test"+testNameContracted+"()\n    {\n\n    }\n    "
+            returnContent = tab + "/**\n" + tab + "* " + testNameExpanded + "\n" + tab + "*/\n" + tab + "public function test"+testNameContracted+"()\n" + tab + "{\n\n" + tab + "}\n" + tab
 
         elif (languageSyntax == "JavaScript"):
             # will generate Jasmine blocks
@@ -40,11 +42,16 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
 
             if (examineNameTypeParts[0].lower() == "describe"):
                 examineNameTypeParts.pop(0) # remove the "describe" prefix
-                returnContent = "    describe('"+ (" ".join(examineNameTypeParts)) +"', function () {\n\n    });\n    "
+                returnContent = tab + "describe('"+ (" ".join(examineNameTypeParts)) +"', function () {\n\n" + tab + "});\n" + tab
             else:
-                returnContent = "        it('"+testNameExpanded+"', function () {\n\n        });\n    "
+                returnContent = tab + tab + "it('"+testNameExpanded+"', function () {\n\n" + tab + "" + tab + "});\n" + tab
 
         return returnContent
+
+    def getWhitespaceTab(self):
+        if (self.view.settings().get('translate_tabs_to_spaces')):
+            return "".rjust(self.view.settings().get('tab_size'), ' ')
+        return "\t";
 
     def getSyntax(self):
         return self.view.settings().get('syntax').replace('.tmLanguage', '').split("/")[1]
