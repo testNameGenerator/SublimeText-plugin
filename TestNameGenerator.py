@@ -10,6 +10,7 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
         if ((currentSyntax != "PHP") & (currentSyntax != "JavaScript")):
             return
 
+        cursor = 0
         # iterate over all cursors
         for region in self.view.sel():
             # extract line contents from cursor(s)
@@ -19,14 +20,19 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
             # keep only alphanum and ",", ".", "(", ")"
             testNameExpanded = re.sub(r'[^a-zA-Z0-9., \(\)]', '', lineContents).strip()
 
-            # if extracted line contents are not empty, add them to stack
-            if (testNameExpanded):
-                # convert to CamelCase and keep only alphanumeric chars
-                testNameContracted = testNameExpanded.title()
-                testNameContracted = re.sub(r'[^a-zA-Z0-9]', '', testNameContracted)
+            # if extracted line contents are empty, use "blank"
+            if not testNameExpanded:
+                testNameExpanded = "blank"
+                if cursor > 0:
+                    testNameExpanded += str(cursor)
+                cursor += 1
 
-                # replace current line
-                self.view.replace(edit, line, self.prepareTestContent(testNameExpanded, testNameContracted, currentSyntax))
+            # convert to CamelCase and keep only alphanumeric chars
+            testNameContracted = testNameExpanded.title()
+            testNameContracted = re.sub(r'[^a-zA-Z0-9]', '', testNameContracted)
+
+            # replace current line
+            self.view.replace(edit, line, self.prepareTestContent(testNameExpanded, testNameContracted, currentSyntax))
 
     def prepareTestContent(self, testNameExpanded, testNameContracted, languageSyntax):
         returnContent = ""
@@ -34,7 +40,7 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
         tab = self.getWhitespaceTab()
 
         if (languageSyntax == "PHP"):
-            returnContent = tab + "/**\n" + tab + "* " + testNameExpanded + "\n" + tab + "*/\n" + tab + "public function test"+testNameContracted+"()\n" + tab + "{\n\n" + tab + "}\n" + tab
+            returnContent = tab + "/**\n" + tab + "* " + testNameExpanded + "\n" + tab + "*/\n" + tab + "public function test"+testNameContracted+"()\n" + tab + "{\n\n" + tab + "}\n\n" + tab
 
         elif (languageSyntax == "JavaScript"):
             # will generate Jasmine blocks
@@ -42,9 +48,9 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
 
             if (examineNameTypeParts[0].lower() == "describe"):
                 examineNameTypeParts.pop(0) # remove the "describe" prefix
-                returnContent = tab + "describe('"+ (" ".join(examineNameTypeParts)) +"', function () {\n\n" + tab + "});\n" + tab
+                returnContent = tab + "describe('"+ (" ".join(examineNameTypeParts)) +"', function () {\n\n" + tab + "});\n\n" + tab
             else:
-                returnContent = tab + tab + "it('"+testNameExpanded+"', function () {\n\n" + tab + "" + tab + "});\n" + tab
+                returnContent = tab + tab + "it('"+testNameExpanded+"', function () {\n\n" + tab + "" + tab + "});\n\n" + tab
 
         return returnContent
 
