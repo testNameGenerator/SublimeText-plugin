@@ -18,7 +18,7 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
             lineContents = self.view.substr(line).strip()
 
             # keep only alphanum and ",", ".", "(", ")"
-            testNameExpanded = re.sub(r'[^a-zA-Z0-9., \(\)]', '', lineContents).strip()
+            testNameExpanded = re.sub(r'[^a-zA-Z0-9 \(\)_\:\.\,\[\]]', '', lineContents).strip()
 
             # if extracted line contents are empty, use "blank"
             if not testNameExpanded:
@@ -29,7 +29,7 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
 
             # convert to CamelCase and keep only alphanumeric chars
             testNameContracted = testNameExpanded.title()
-            testNameContracted = re.sub(r'[^a-zA-Z0-9]', '', testNameContracted)
+            testNameContracted = re.sub(r'[^a-zA-Z0-9_]', '', testNameContracted)
 
             # replace current line
             self.view.replace(edit, line, self.prepareTestContent(testNameExpanded, testNameContracted, currentSyntax))
@@ -40,7 +40,7 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
         tab = self.getWhitespaceTab()
 
         if (languageSyntax == "PHP"):
-            returnContent = tab + "/**\n" + tab + "* " + testNameExpanded + "\n" + tab + "*/\n" + tab + "public function test"+testNameContracted+"()\n" + tab + "{\n\n" + tab + "}\n\n" + tab
+            returnContent = tab + "/**\n" + tab + " * " + testNameExpanded + "\n" + tab + " */\n" + tab + "public function test"+testNameContracted+"()\n" + tab + "{\n\n" + tab + "}\n\n" + tab
 
         elif (languageSyntax == "JavaScript"):
             # will generate Jasmine blocks
