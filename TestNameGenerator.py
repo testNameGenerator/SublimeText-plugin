@@ -31,8 +31,26 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
             testNameContracted = testNameExpanded.title()
             testNameContracted = re.sub(r'[^a-zA-Z0-9_]', '', testNameContracted)
 
-            # replace current line
-            self.view.replace(edit, line, self.prepareTestContent(testNameExpanded, testNameContracted, currentSyntax))
+            if (currentSyntax == "PHP"):
+                content = self.view.substr(sublime.Region(0, self.view.size()))
+                r = (re.search(r'\/\*([\*\n\s]+)' + re.escape(lineContents.strip())  + '([a-zA-Z0-9\n\s\*@]+)\*\/([\s]+)(public)?(\s)?function(\s)?test([a-zA-Z0-9_]+)(\s\n)?\(', content))
+                if (r == None):
+                    # insert new test method
+                    self.view.replace(edit, line, self.prepareTestContent(testNameExpanded, testNameContracted, currentSyntax))
+                else:
+                    if (r.group(7) != None):
+                        s              = "test"+r.group(7) # search for current test name
+                        methodPosition = content.find(s)
+                        line           = self.view.line(sublime.Region(methodPosition, methodPosition + len(s)))
+                        tab            = self.getWhitespaceTab()
+                        lineContents   = self.view.substr(line).strip()
+                        lineContents   = lineContents.replace(s, "test"+testNameContracted)
+                        self.view.replace(edit, line, tab + lineContents)
+
+            else:
+                # JS will add a new test method because the text is inside the test method
+                # replace current line
+                self.view.replace(edit, line, self.prepareTestContent(testNameExpanded, testNameContracted, currentSyntax))
 
     def prepareTestContent(self, testNameExpanded, testNameContracted, languageSyntax):
         returnContent = ""
