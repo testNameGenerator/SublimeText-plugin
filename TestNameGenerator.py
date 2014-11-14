@@ -32,7 +32,6 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         SublimeConnect.init(self)
         currentSyntax      = SublimeConnect.getSyntax()
-        extractedTestNames = []
         
         if False == self.isAllowedSyntax(currentSyntax):
             return
@@ -51,7 +50,6 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
             if (currentSyntax == "PHP"):
                 methodName     = self.getMethodName(phrase)
                 existingMethod = self.getExistingMethod(lineContents, cursorLine)
-                print(existingMethod)
 
                 if existingMethod == False:
                     SublimeConnect.insertMethodName(edit, cursorLine, TextHelper.prepareTestBlockPHP(phrase, methodName))
