@@ -98,6 +98,15 @@ class SublimeConnect():
     context = False
 
     @classmethod
+    def find_all(self, a_str, sub):
+        start = 0
+        while True:
+            start = a_str.find(sub, start)
+            if start == -1: return
+            yield start
+            start += len(sub) # use start += 1 to find overlapping matches
+
+    @classmethod
     def getPageContents(self, cursorLine):
         cursorPosition = cursorLine.begin()
         return self.context.view.substr(sublime.Region(0, self.context.view.size()))
@@ -106,14 +115,16 @@ class SublimeConnect():
     def updateMethodNamePHP(self, edit, cursorLine, methodName, existingMethodResults):
         tab            = SublimeConnect.getWhitespaceTab()
         searchExisting = "test" + existingMethodResults # search for current test name
-        methodPosition = self.getPageContents(cursorLine).find(searchExisting)
-        region         = sublime.Region(methodPosition, methodPosition + len(searchExisting))
-        # debug: self.context.view.add_regions('highlighted_lines', [region] , 'mark', 'dot', sublime.DRAW_OUTLINED) 
+        methodPosition = list(SublimeConnect.find_all(self.getPageContents(cursorLine), searchExisting))
 
-        lineToUpdate   = self.context.view.line(region)
-        lineContents   = self.context.view.substr(lineToUpdate).strip().replace(searchExisting, "test" + methodName)
-        
-        self.context.view.replace(edit, lineToUpdate, tab + lineContents)
+        for methodPositionCursor in methodPosition:
+            if (methodPositionCursor >= cursorLine.begin()):
+                print(methodPositionCursor, searchExisting, cursorLine.begin())
+                region         = sublime.Region(methodPositionCursor, methodPositionCursor + len(searchExisting))
+                lineToUpdate   = self.context.view.line(region)
+                lineContents   = self.context.view.substr(lineToUpdate).strip().replace(searchExisting, "test" + methodName)
+                self.context.view.replace(edit, lineToUpdate, tab + lineContents)
+                return
 
     @classmethod
     def insertMethodName(self, edit, cursorLine, testBlock):
