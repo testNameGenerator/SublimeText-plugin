@@ -1,3 +1,4 @@
 [{
-  "keys": ["ctrl+shift+u"], "command": "convert_test_name"
+  "keys": ["ctrl+shift+u"], "command": "convert_test_name",
+  "keys": ["ctrl+shift+c"], "command": "generate_test_files"
 }]
