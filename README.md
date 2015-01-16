@@ -32,4 +32,4 @@ PHP<br/>
 JavaScript<br/>
 ![](https://raw.githubusercontent.com/bogdananton/Sublime-testNameGenerator/master/preview-jasmine.png)
 
-Check out the [PhpStorm](https://github.com/bogdananton/PhpStorm-testNameGenerato) or [Eclipse](https://github.com/sorinstanila/Eclipse-testNameGenerator) versions of the plugin.
+Check out the [PhpStorm](https://github.com/bogdananton/PhpStorm-testNameGenerator) or [Eclipse](https://github.com/sorinstanila/Eclipse-testNameGenerator) versions of the plugin.
