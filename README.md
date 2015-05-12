@@ -8,7 +8,7 @@ If the original phrase is inside a dockblock then it updates the method using th
 
 Install
 -----
-Install by downloading the [1.0.1 release zip](https://github.com/bogdananton/Sublime-testNameGenerator/releases/download/1.0.1/testNameGenerator.zip) and unpacking it into the \Packages folder (SublimeText Menu \ Preferences \ Browse Packages).
+Install by downloading the [1.0.1 release zip](https://github.com/testNameGenerator/SublimeText-plugin/releases/download/1.0.1/testNameGenerator.zip) and unpacking it into the \Packages folder (SublimeText Menu \ Preferences \ Browse Packages).
 
 Usage
 -----
@@ -27,9 +27,9 @@ TODO: context menu for selecting different languages / syntaxes
 Preview
 -----
 PHP<br/>
-![](https://raw.githubusercontent.com/bogdananton/Sublime-testNameGenerator/master/preview.png)
+![](https://raw.githubusercontent.com/testNameGenerator/SublimeText-plugin/master/preview.png)
 
 JavaScript<br/>
-![](https://raw.githubusercontent.com/bogdananton/Sublime-testNameGenerator/master/preview-jasmine.png)
+![](https://raw.githubusercontent.com/testNameGenerator/SublimeText-plugin/master/preview-jasmine.png)
 
-Check out the [PhpStorm](https://github.com/bogdananton/PHPStorm-Test-name-generator) or [Eclipse](https://github.com/sorinstanila/Eclipse-testNameGenerator) versions of the plugin.
+Check out the [PHPStorm](https://github.com/testNameGenerator/PHPStorm-plugin) or [Eclipse](https://github.com/testNameGenerator/Eclipse-plugin) versions of the plugin.
