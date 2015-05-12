@@ -1,1 +1,1 @@
-{"description": "PHP-PHPUnit / JS-Jasmine Syntax: Will convert plain text task/message into a test method, using the plain text as a comment for readability.", "version": "1.0.3", "url": "https://github.com/bogdananton/Sublime-testNameGenerator"}
+{"description": "PHP-PHPUnit / JS-Jasmine Syntax: Will convert plain text task/message into a test method, using the plain text as a comment for readability.", "version": "1.0.3", "url": "https://github.com/testNameGenerator/SublimeText-plugin"}
