@@ -55,10 +55,11 @@ class ConvertTestNameCommand(sublime_plugin.TextCommand):
                     SublimeConnect.insertMethodName(edit, cursorLine, TextHelper.prepareTestBlockPHP(phrase, methodName))
                 else:
                     SublimeConnect.updateMethodNamePHP(edit, cursorLine, methodName, existingMethod)
-
             else:
                 # JS will add a new test method because the text is inside the test method
                 SublimeConnect.insertMethodName(edit, cursorLine, TextHelper.prepareTestBlockJS(phrase))
+
+        SublimeConnect.close()
 
 class TextHelper():
     def patternExistingMethodPHP(lineContents):
@@ -73,7 +74,7 @@ class TextHelper():
 
     def prepareTestBlockPHP(phrase, methodName):
         tab = SublimeConnect.getWhitespaceTab()
-        return tab + "/**\n" + tab + " * " + phrase + "\n" + tab + " */\n" + tab + "public function test" + methodName + "()\n" + tab + "{\n\n" + tab + "}\n\n" + tab
+        return tab + "/**\n" + tab + " * " + phrase + "\n" + tab + " */\n" + tab + "public function test" + methodName + "()\n" + tab + "{\n" + tab + tab + "\n" + tab + "}\n" + tab
 
     # will generate Jasmine blocks
     def prepareTestBlockJS(phrase):
@@ -82,20 +83,45 @@ class TextHelper():
 
         if (examineNameTypeParts[0].lower() == "describe"):
             phrase = " ".join(examineNameTypeParts.pop(0)) # remove the "describe" prefix
-            return self.getJasmineDescribeBlock(phrase, tab)
+            return TextHelper.getJasmineDescribeBlock(phrase, tab)
 
         else:
-            return self.getJasmineItBlock(phrase, tab)
+            return TextHelper.getJasmineItBlock(phrase, tab)
 
     def getJasmineDescribeBlock(phrase, tab):
         return tab + "describe('" +  phrase + "', function () {\n\n" + tab + "});\n\n" + tab
 
     def getJasmineItBlock(phrase, tab):
-        return tab + tab + "it('" + phrase + "', function () {\n\n" + tab + "" + tab + "});\n\n" + tab
+        return tab + tab + "it('" + phrase + "', function () {\n" + tab + tab + tab + "\n" + tab + "" + tab + "});\n\n" + tab
 
 # connector to the sublime api
 class SublimeConnect():
     context = False
+
+    @classmethod
+    def close(self):
+        view = self.context.view
+        queueMoveCursors = []
+        deltaCol = 1 if self.getWhitespaceTab() == "\t" else 4
+
+        for cursor in view.sel():
+            target = view.text_point(self.getCursorRow(cursor) - 2, self.getCursorCol(cursor) + deltaCol)
+            queueMoveCursors.append(sublime.Region(target))
+            pass
+
+        view.sel().clear()
+
+        for cursor in queueMoveCursors:
+            view.sel().add(cursor)
+            pass
+
+    @classmethod
+    def getCursorRow(self, cursor):
+        return self.context.view.rowcol(cursor.begin())[0]
+
+    @classmethod
+    def getCursorCol(self, cursor):
+        return self.context.view.rowcol(cursor.begin())[1]
 
     @classmethod
     def find_all(self, a_str, sub):

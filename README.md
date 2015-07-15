@@ -8,7 +8,7 @@ If the original phrase is inside a dockblock then it updates the method using th
 
 Install
 -----
-Install by downloading the [1.0.1 release zip](https://github.com/testNameGenerator/SublimeText-plugin/releases/download/1.0.1/testNameGenerator.zip) and unpacking it into the \Packages folder (SublimeText Menu \ Preferences \ Browse Packages).
+Install by downloading the [1.0.4 release zip](https://github.com/testNameGenerator/SublimeText-plugin/releases/download/1.0.4/testNameGenerator.zip) and unpacking it into the \Packages folder (SublimeText Menu \ Preferences \ Browse Packages).
 
 Usage
 -----
